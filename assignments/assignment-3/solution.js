@@ -58,6 +58,7 @@ Pokemon.prototype.attack = function (opponent, moveName) {
         for (let i = 0; i < availableMoves.length; i++) {
             if (moveName === availableMoves[i].name) {
                 move = availableMoves[i];
+                break;
             }
         }
     }
