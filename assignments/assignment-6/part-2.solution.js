@@ -1,4 +1,5 @@
-// 1
+// Specific Filtering Functions (Part-2)
+
 function filterPalindromes(strings) {
     const result = [];
     for (let i = 0; i < strings.length; i++) {
@@ -9,7 +10,6 @@ function filterPalindromes(strings) {
     return result;
 }
 
-// 2
 function filterLowercase(strings) {
     const result = [];
     for (let i = 0; i < strings.length; i++) {
@@ -20,7 +20,6 @@ function filterLowercase(strings) {
     return result;
 }
 
-// 3
 function isOnlyConsonantWord(word) {
     const vowels = "aeiou";
     for (let i = 0; i < word.length; i++) {
@@ -42,11 +41,67 @@ function filterConsonantWords(strings) {
     return result;
 }
 
-//4
 function isOneVowelWord(word) {
     const vowels = "aeiou";
     let counter = 0;
+    for (let i = 0; i < word.length; i++) {
+        if (vowels.includes(word[i])) {
+            counter++;
+            if (counter > 1) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
 
+function filterOneVowelWords(strings) {
+    const result = [];
+    for (let i = 0; i < strings.length; i++) {
+        if (isOneVowelWord(strings[i])) {
+            result.push(strings[i]);
+        }
+    }
+    return result;
+}
+
+// Refactor: Generic Filter Function Using Callback
+
+function filterStrings(strings, callback) {
+    const result = [];
+    for (let i = 0; i < strings.length; i++) {
+        if (callback(strings[i])) {
+            result.push(strings[i]);
+        }
+    }
+    return result;
+}
+
+// Specific Callbacks for Refactored Functions
+
+function isPalindrome(word) {
+    return word === word.split("").reverse().join("");
+}
+
+function filterPalindromes(strings) {
+    return filterStrings(strings, isPalindrome);
+}
+
+function isLowercase(word) {
+    return word === word.toLowerCase();
+}
+
+function filterLowercase(strings) {
+    return filterStrings(strings, isLowercase);
+}
+
+function filterConsonantWords(strings) {
+    return filterStrings(strings, isOnlyConsonantWord);
+}
+
+function isOneVowelWord(word) {
+    const vowels = "aeiou";
+    let counter = 0;
     for (let i = 0; i < word.length; i++) {
         if (vowels.includes(word[i])) {
             counter++;
@@ -59,11 +114,5 @@ function isOneVowelWord(word) {
 }
 
 function filterOneVowelWords(strings) {
-    const result = [];
-    for (let i = 0; i < strings.length; i++) {
-        if (isOneVowelWord(strings[i])) {
-            result.push(strings[i]);
-        }
-    }
-    return result;
+    return filterStrings(strings, isOneVowelWord);
 }
